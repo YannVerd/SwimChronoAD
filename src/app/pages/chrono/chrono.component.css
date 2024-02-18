@@ -1,0 +1,15 @@
+mat-card{
+    width: 10rem;
+    height: 10rem;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem;
+    border-radius: 100%;
+}
+
+mat-card span{
+    color: white;
+}
+
+

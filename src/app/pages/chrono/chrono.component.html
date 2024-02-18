@@ -1,0 +1,12 @@
+<mat-card color="warn">
+    <mat-card-content>
+        <span class="times">{{min || "00"}} : {{sec || "00"}} . {{milli || "000"}}</span>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="accent" (click)="startTimer()">{{text}}</button>
+        <button mat-raised-button color="accent" (click)="clearTimer()">Clear</button>
+        <button mat-raised-button color="accent" [style.display]="text != 'Start' ? 'block':'none'" (click)="lapTimer()">Lap</button>
+        
+    </mat-card-actions>   
+</mat-card>
+

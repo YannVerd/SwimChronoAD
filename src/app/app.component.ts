@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NavBarComponent } from './models/shared/nav-bar/nav-bar.component';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [
+ 
+    NavBarComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

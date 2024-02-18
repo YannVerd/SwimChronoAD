@@ -1,0 +1,25 @@
+<mat-toolbar color="primary">
+    <div class="menu-title">
+      <button mat-raised-button color="primary" class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Swim'Chrono</span>
+    </div>
+    
+    <span class="spacer"></span>
+    <div class="icon-navbar">
+        <button mat-raised-button color="primary" routerLink="chrono" class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+            <a routerLink="chrono" routerLinkActive="active" ariaCurrentWhenActive="page">
+                <mat-icon>pool</mat-icon>
+            </a>
+            
+          </button>
+      <button mat-raised-button color="primary" class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+        <mat-icon>favorite</mat-icon>
+      </button>
+      <button mat-raised-button color="primary" class="example-icon" aria-label="Example icon-button with share icon">
+        <mat-icon>share</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+  <router-outlet></router-outlet>

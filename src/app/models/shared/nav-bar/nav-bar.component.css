@@ -1,0 +1,16 @@
+.spacer {
+    flex: 1 1 auto;
+  }
+
+ .menu-title{
+    display: flex;
+    justify-content: space-between;
+    width: 10rem;
+
+ } 
+
+ .icon-navbar{
+    display: flex;
+    justify-content: space-around;
+    width: 20rem;
+ }
