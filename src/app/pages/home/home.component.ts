@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavBarComponent } from '../../models/shared/nav-bar/nav-bar.component';
+import { NavBarComponent } from '../../models/shared/static/nav-bar/nav-bar.component';
 import { RouterOutlet, RouterModule } from '@angular/router';
 
 @Component({
@@ -14,5 +14,5 @@ import { RouterOutlet, RouterModule } from '@angular/router';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-
+  
 }

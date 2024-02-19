@@ -10,3 +10,32 @@
     </mat-card-actions>   
 </mat-card>
 
+<section>
+    <div>
+        <button mat-raised-button color="accent" (click)="saveLaps()">Save Laps</button>
+        <button mat-raised-button color="accent" (click)="clearLaps()">Clear Laps</button>
+    </div>
+    <table mat-table [dataSource]="listLaps" class="mat-elevation-z8">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+      
+        <!-- Position Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let lap"> {{lap.id}} </td>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="time">
+          <th mat-header-cell *matHeaderCellDef> time </th>
+          <td mat-cell *matCellDef="let lap"> {{lap.time}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</section>
+
+  
+

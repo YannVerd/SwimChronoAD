@@ -1,11 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import {MatTable, MatTableModule} from '@angular/material/table';
+
 
 @Component({
   selector: 'app-chrono',
   standalone: true,
   imports: [
     MatCardModule,
+    MatButtonModule,
+    MatTableModule,
   ],
   templateUrl: './chrono.component.html',
   styleUrl: './chrono.component.css'
@@ -19,7 +24,13 @@ export class ChronoComponent {
   sec: number | undefined;
   min: number | undefined;
   text: string = "Start";
+
   lapTime: string | undefined;
+  listLaps: Object[] = [];
+  idLap: number = 0;
+  displayedColumns: string[] = ['id', 'time'];
+
+  @ViewChild(MatTable) table: MatTable<Object> | undefined;
 
 
   startTimer(){
@@ -61,8 +72,20 @@ export class ChronoComponent {
   }
 
   lapTimer(){
-     this.lapTime = `${this.min?.toString() || '00'}:${this.sec?.toString()|| '00'}.${this.milli?.toString()}`;
-     console.log(this.lapTime);
+    this.idLap++;
+    this.lapTime = `${this.min?.toString() || '00'}:${this.sec?.toString()|| '00'}.${this.milli?.toString()}`;
+    this.listLaps.push({id: this.idLap, time: this.lapTime});
+    this.table?.renderRows();
+   
+  }
+  
+  saveLaps(){
+    // fetch here to back
+    console.log(this.listLaps);
+  }
+
+  clearLaps(){
+    this.listLaps = [];
   }
 
 }
