@@ -82,6 +82,7 @@ export class ChronoComponent {
   saveLaps(){
     // fetch here to back
     console.log(this.listLaps);
+    fetch("http://localhost:5024/times");
   }
 
   clearLaps(){
