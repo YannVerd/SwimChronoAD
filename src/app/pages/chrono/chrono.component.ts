@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatTable, MatTableModule} from '@angular/material/table';
+import { response } from 'express';
 
 
 @Component({
@@ -82,7 +83,20 @@ export class ChronoComponent {
   saveLaps(){
     // fetch here to back
     console.log(this.listLaps);
-    fetch("http://localhost:5024/times");
+    if(this.listLaps.length > 0){
+      fetch("http://localhost:5024/saveTimes",{
+      method:'POST',
+      headers:{"Content-Type": "application/json"},
+      mode: 'no-cors',
+      body: JSON.stringify({"id":0, "laps":this.listLaps})
+    }).then( (response)=>{
+      !response.ok?  console.log(new Error("Not 2xx response", {cause: response})): console.log('laps send successfull')
+    }).catch((err)=>{
+      console.log(err)
+    })
+  
+    }
+    
   }
 
   clearLaps(){
