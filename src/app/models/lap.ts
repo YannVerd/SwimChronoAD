@@ -1,5 +1,5 @@
 export interface Lap {
-    milli: number;
-    sec: number;
-    min: number;
+    num: number;
+    lapTime: string;
+    
 }

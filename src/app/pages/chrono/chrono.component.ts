@@ -1,8 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Component, Injectable, OnInit, ViewChild, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatTable, MatTableModule} from '@angular/material/table';
 import { response } from 'express';
+import { Observable, catchError, throwError } from 'rxjs';
+import { Lap } from '../../models/lap';
 
 
 @Component({
@@ -16,7 +19,12 @@ import { response } from 'express';
   templateUrl: './chrono.component.html',
   styleUrl: './chrono.component.css'
 })
-export class ChronoComponent {
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class ChronoComponent{
   currentTime: number | undefined;
   isRunning: boolean = false;
   timer : ReturnType<typeof setTimeout> | undefined;
@@ -32,9 +40,18 @@ export class ChronoComponent {
   displayedColumns: string[] = ['id', 'time'];
 
   @ViewChild(MatTable) table: MatTable<Object> | undefined;
+  http = inject(HttpClient);
+    
+  httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+      })
+  };
+  
+  
 
 
-  startTimer(){
+  startTimer(): void{
     
     if(!this.isRunning){
       
@@ -51,7 +68,7 @@ export class ChronoComponent {
     this.isRunning = !this.isRunning;
   }
 
-  clearTimer(){
+  clearTimer(): void{
     clearInterval(this.timer);
     this.text = 'Start';
     this.isRunning = false;
@@ -61,7 +78,7 @@ export class ChronoComponent {
     this.min = undefined;
   }
 
-  convertToDisplayFormat(){
+  convertToDisplayFormat(): void{
     this.milli = this.currentTime!%1000;
     if(this.currentTime! >= 1000){
       this.sec = Math.floor(this.currentTime! / 1000);
@@ -72,7 +89,7 @@ export class ChronoComponent {
     }
   }
 
-  lapTimer(){
+  lapTimer(): void{
     this.idLap++;
     this.lapTime = `${this.min?.toString() || '00'}:${this.sec?.toString()|| '00'}.${this.milli?.toString()}`;
     this.listLaps.push({id: this.idLap, time: this.lapTime});
@@ -84,23 +101,44 @@ export class ChronoComponent {
     // fetch here to back
     console.log(this.listLaps);
     if(this.listLaps.length > 0){
-      fetch("http://localhost:5024/saveTimes",{
-      method:'POST',
-      headers:{"Content-Type": "application/json"},
-      mode: 'no-cors',
-      body: JSON.stringify({"id":0, "laps":this.listLaps})
-    }).then( (response)=>{
-      !response.ok?  console.log(new Error("Not 2xx response", {cause: response})): console.log('laps send successfull')
-    }).catch((err)=>{
-      console.log(err)
-    })
-  
+      // fetch("http://localhost:5024/saveTimes",{
+      // method:'POST',
+      // headers:{"Content-Type": "application/json"},
+      // mode: 'no-cors',
+      // body: JSON.stringify({"id":0, "laps":this.listLaps})
+      // }).then( (response)=>{
+      // !response.ok?  console.log(new Error("Not 2xx response", {cause: response})): console.log('laps send successfull')
+      // }).catch((err)=>{
+      // console.log(err)
+      // })
+   
+     this.http.post("http://localhost:5024/saveTimes", {"laps":this.listLaps}, this.httpOptions).pipe(
+      catchError(
+      
+        this.handleError
+      )
+     ).subscribe();
     }
     
   }
 
-  clearLaps(){
+  clearLaps(): void{
     this.listLaps = [];
   }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, body was: `, error.error);
+    }
+    // Return an observable with a user-facing error message.
+    return throwError(() => new Error('Something bad happened; please try again later.'));
+  }
+  
 
 }
