@@ -5,7 +5,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatTable, MatTableModule} from '@angular/material/table';
 import { response } from 'express';
 import { Observable, catchError, throwError } from 'rxjs';
-import { Lap } from '../../models/lap';
+
 
 
 @Component({
@@ -45,6 +45,8 @@ export class ChronoComponent{
   httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
+        'Accept': 'application/json',
+        'Access-Control-Allow-Origin': '/'
       })
   };
   
@@ -92,7 +94,7 @@ export class ChronoComponent{
   lapTimer(): void{
     this.idLap++;
     this.lapTime = `${this.min?.toString() || '00'}:${this.sec?.toString()|| '00'}.${this.milli?.toString()}`;
-    this.listLaps.push({id: this.idLap, time: this.lapTime});
+    this.listLaps.push({num: this.idLap, time: this.lapTime});
     this.table?.renderRows();
    
   }
@@ -112,7 +114,7 @@ export class ChronoComponent{
       // console.log(err)
       // })
    
-     this.http.post("http://localhost:5024/saveTimes", {"laps":this.listLaps}, this.httpOptions).pipe(
+     this.http.post("http://localhost:5024/saveTimes", this.listLaps, this.httpOptions).pipe(
       catchError(
       
         this.handleError
